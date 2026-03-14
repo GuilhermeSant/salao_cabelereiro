@@ -57,7 +57,7 @@ export default function ClientDashboard() {
   return (
     <div className="max-w-5xl mx-auto py-12 px-4 sm:px-6 lg:px-8 min-h-screen">
       <div className="mb-10 text-center md:text-left">
-        <h1 className="text-4xl font-extrabold text-white mb-2">Meus <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-amber-600">Agendamentos</span></h1>
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-white mb-2 leading-tight">Meus <br className="sm:hidden" /><span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-300 to-amber-600">Agendamentos</span></h1>
         <p className="text-neutral-400">Acompanhe seus horários marcados e histórico no Salão Lumière.</p>
       </div>
 
@@ -92,22 +92,25 @@ export default function ClientDashboard() {
         ) : (
           <div className="space-y-4">
             {appointments.map(app => (
-              <div key={app.id} className="bg-neutral-950 border border-neutral-800 rounded-2xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-6 transition-colors hover:border-neutral-700">
+              <div key={app.id} className="bg-neutral-950 border border-neutral-800 rounded-2xl p-4 sm:p-6 flex flex-col md:flex-row md:items-center justify-between gap-5 sm:gap-6 transition-colors hover:border-neutral-700">
                  <div className="flex gap-4">
                     <div className="w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex flex-col items-center justify-center shrink-0">
                        <span className="text-amber-500 font-bold text-lg leading-tight">{app.dateStr.split('-')[2]}</span>
                        <span className="text-amber-500/70 text-xs font-bold leading-tight uppercase">{new Date(app.dateStr).toLocaleString('pt-BR', { month: 'short' }).replace('.','')}</span>
                     </div>
                     <div className="flex flex-col justify-center">
-                       <h3 className="text-white font-bold text-lg flex items-center gap-2">
-                         {app.serviceName || app.service?.title || 'Serviço Genérico'} 
+                       <div className="flex flex-wrap items-center gap-2 mb-1">
+                         <h3 className="text-white font-bold text-lg leading-tight">
+                           {app.serviceName || app.service?.title || 'Serviço Genérico'} 
+                         </h3>
                          <span className={`px-2 py-0.5 text-[10px] uppercase tracking-wider rounded border ${app.status === 'cancelled' ? 'bg-red-500/10 text-red-500 border-red-500/20' : 'bg-green-500/10 text-green-500 border-green-500/20'}`}>
                            {app.status === 'cancelled' ? 'Cancelado' : 'Confirmado'}
                          </span>
-                        </h3>
-                       <p className="text-neutral-400 text-sm flex items-center gap-2 mt-1">
-                         <Clock size={14}/> {app.time}h • <Scissors size={14} className="ml-2"/> Profissional: {app.employeeName || app.barberName || app.barber?.name || app.employeeId || app.barberId}
-                       </p>
+                       </div>
+                       <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-neutral-400 text-sm">
+                         <span className="flex items-center gap-1"><Clock size={14}/> {app.time}h</span>
+                         <span className="flex items-center gap-1 truncate"><Scissors size={14} className="shrink-0"/> Prof: {app.employeeName || app.barberName || app.barber?.name?.split(' ')[0] || 'Profissional'}</span>
+                       </div>
                     </div>
                  </div>
 
